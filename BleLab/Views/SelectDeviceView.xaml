@@ -1,0 +1,88 @@
+﻿<UserControl
+    x:Class="BleLab.Views.SelectDeviceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:micro="using:Caliburn.Micro"
+    mc:Ignorable="d"
+    HorizontalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    d:DesignHeight="500"
+    d:DesignWidth="600">
+   
+    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Style="{StaticResource TopLevelViewHeaderGridStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource TopLevelViewHeaderTitleTextBlockStyle}">Select Bluetooth LE device</TextBlock>
+            <Button x:Name="RefreshDevicesList" 
+                    Style="{StaticResource IconButtonStyle}"
+                    Grid.Column="1" 
+                    ToolTipService.ToolTip="Refresh devices list"
+                    FontSize="25"
+                    Content="&#xE895;"/> 
+        </Grid>
+
+        <Grid Grid.Row="1" Style="{StaticResource TopLevelViewContentGridStyle}">
+            <ListView 
+                SelectionMode="None"
+                IsItemClickEnabled="True"
+                x:Name="Devices" 
+                micro:Message.Attach="[Event ItemClick] = [DeviceClicked($eventArgs)]"
+                RelativePanel.Below="Title" 
+                HorizontalContentAlignment="Stretch">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid ItemHeight="150" ItemWidth="250" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0 0 10 10"/>
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="Background" Value="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            
+            <StackPanel Visibility="{Binding HasError, Converter={StaticResource Bool2Vis}}">
+                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" 
+                           Visibility="{Binding NoDevicesPaired, Converter={StaticResource Bool2Vis}}">
+                    <Run>There are no Bluetooth Low Energy devices paired :(</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run FontSize="18">Visit your Bluetooth settings to connect one.</Run>
+                </TextBlock>
+
+                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" 
+                           Visibility="{Binding BluetoothDisabled, Converter={StaticResource Bool2Vis}}">
+                    <Run>Bluetooth adapter seems to be disabled :(</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run FontSize="18">Visit your Bluetooth settings to fix this.</Run>
+                </TextBlock>
+
+                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" 
+                           Visibility="{Binding NoBluetooth, Converter={StaticResource Bool2Vis}}">
+                    <Run>We couldn't find Bluetooth adapter on this device :(</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run FontSize="18">Are you sure you have one? Visit your Bluetooth settings to check.</Run>
+                </TextBlock>
+
+                <Button Margin="0 10 0 0" x:Name="OpenBluetoothSettings">Open Bluetooth Settings</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

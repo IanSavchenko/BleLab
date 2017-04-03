@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="BleLab.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:micro="using:Caliburn.Micro"
+    mc:Ignorable="d">
+
+    <SplitView
+        x:Name="NavigationPane"
+        DisplayMode="CompactOverlay"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6" />
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button x:Name="HamburgerButton"
+                        Grid.Row="1"
+                        Click="HamburgerButton_OnClick"
+                        Style="{StaticResource MenuItemButtonStyle}"
+                        Tag="&#xE700;" />
+
+                <StackPanel x:Name="NavigationMenu"
+                            Grid.Row="2"
+                            Orientation="Vertical">
+                    <RadioButton x:Name="OpenDevice"
+                                 Click="MenuButton_OnClick"
+                                 Content="Device"
+                                 GroupName="Group1"
+                                 Style="{StaticResource NavigationButtonStyle}"
+                                 Tag="&#59138;" />
+                    <RadioButton x:Name="OpenSettings"
+                                 Click="MenuButton_OnClick"
+                                 Content="Settings"
+                                 GroupName="Group1"
+                                 Style="{StaticResource NavigationButtonStyle}"
+                                 Tag="&#57621;" />
+                    <RadioButton x:Name="OpenAbout"
+                                 Click="MenuButton_OnClick"
+                                 Content="About"
+                                 GroupName="Group1"
+                                 Style="{StaticResource NavigationButtonStyle}"
+                                 Tag="&#59718;" />
+                </StackPanel>
+
+            </Grid>
+        </SplitView.Pane>
+        
+        <SplitView.Content>
+            <Grid Margin="0 0">
+                <ContentControl HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                        x:Name="ActiveItem"/>
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
+</Page>

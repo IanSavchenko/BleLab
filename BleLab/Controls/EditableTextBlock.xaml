@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="BleLab.Controls.EditableTextBlock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="Root"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <TextBlock x:Name="NonEditable" 
+                   TextWrapping="{Binding ElementName=Root, Path=TextWrapping}"
+                   Style="{Binding ElementName=Root, Path=TextBlockStyle}"
+                   FontSize="{x:Bind Root.FontSize}"
+                   FontWeight="{x:Bind Root.FontWeight}"
+                   Tapped="NonEditable_OnTapped"
+                   PointerExited="NonEditable_OnPointerExited"
+                   PointerEntered="NonEditable_OnPointerEntered">
+        </TextBlock>
+
+        <TextBox x:Name="Editable" 
+                 Visibility="Collapsed"
+                 KeyUp="Editable_OnKeyUp"
+                 TextWrapping="{Binding ElementName=Root, Path=TextWrapping}"
+                 FontSize="{x:Bind NonEditable.FontSize}"
+                 FontWeight="{x:Bind Root.FontWeight}"
+                 LostFocus="Editable_OnLostFocus"/>
+    </Grid>
+</UserControl>

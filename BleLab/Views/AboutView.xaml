@@ -1,0 +1,85 @@
+﻿<UserControl
+    x:Class="BleLab.Views.AboutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:micro="using:Caliburn.Micro"
+    mc:Ignorable="d"
+    x:Name="Root"
+    d:DesignHeight="800"
+    d:DesignWidth="1000">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0"  Style="{StaticResource TopLevelViewHeaderGridStyle}" x:Name="HeaderGrid">
+            <StackPanel VerticalAlignment="Top">
+                <TextBlock Style="{StaticResource TopLevelViewHeaderTitleTextBlockStyle}">Bluetooth LE Lab</TextBlock>
+                <TextBlock Style="{StaticResource TopLevelViewHeaderSecondaryTextBlockStyle}">
+                    <Run Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}">Version:&#160;</Run><Run Text="{Binding Version}"/>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        
+        <Grid
+            Grid.Row="0"
+            micro:Message.Attach="[Event Tapped] = [Action ForkMe()]"
+            Width="160"
+            Height="25"
+            Margin="-65,-18"
+            Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Right">
+
+            <TextBlock 
+                    Text="Fork me on GitHub" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" 
+                    FontSize="12"
+                    Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                    TextAlignment="Center"/>
+
+            <Rectangle Stroke="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                       StrokeThickness="1" 
+                       Margin="0 2"
+                       StrokeDashArray="8 2" />
+
+            <Grid.RenderTransform>
+                <RotateTransform Angle="45"></RotateTransform>
+            </Grid.RenderTransform>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Auto">
+            <Grid Style="{StaticResource TopLevelViewContentGridStyle}">
+            
+                <StackPanel MaxWidth="600" HorizontalAlignment="Left">
+                    <controls:HeaderedTextBlock Header="What is this?" Text="Free open source application for interaction with Bluetooth Low Energy devices that support GATT protocol."/>
+                    <controls:HeaderedTextBlock Header="Who is it made for?" Text="The app is made both for developers and IoT enthusiasts who want to play around with their wireless devices."/>
+                    <controls:HeaderedTextBlock Header="Can I contribute?" Text="Sure! Fork our GitHub repo and submit a pull request!"/>
+
+                    <TextBlock Margin="0 20 0 0" Style="{ThemeResource SubtitleTextBlockStyle}">GitHub repo</TextBlock>
+                    <HyperlinkButton  NavigateUri="https://github.com/IanSavchenko/BleLab">https://github.com/IanSavchenko/BleLab</HyperlinkButton>
+
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Email</TextBlock>
+                    <HyperlinkButton NavigateUri="mailto:blelab@outlook.com">BleLab@outlook.com</HyperlinkButton>
+
+                    <TextBlock Text="Attributions" Margin="0 20 0 0" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <HyperlinkButton NavigateUri="http://caliburnmicro.com/">Caliburn.Micro</HyperlinkButton>
+                    <HyperlinkButton NavigateUri="http://www.litedb.org/">LiteDB</HyperlinkButton>
+                    <HyperlinkButton NavigateUri="https://github.com/Microsoft/UWPCommunityToolkit">UWP Community Toolkit</HyperlinkButton>
+                    <HyperlinkButton NavigateUri="https://github.com/bitstadium/HockeySDK-Windows">HockeySDK UWP</HyperlinkButton>
+                    <TextBlock Margin="0 20 0 0" Style="{StaticResource RegularTextBlockStyle}">Application icon made by <Hyperlink NavigateUri="http://www.freepik.com/">Freepik</Hyperlink> from <Hyperlink NavigateUri="http://www.flaticon.com">flaticon.com</Hyperlink></TextBlock>
+                    <TextBlock Margin="0 20 0 0"  Style="{StaticResource RegularTextBlockStyle}">Information about standard GATT services and characteristics provided from <Hyperlink NavigateUri="https://www.bluetooth.com/specifications/gatt">www.bluetooth.com</Hyperlink></TextBlock>
+
+                    <controls:HeaderedTextBlock Header="Privacy notice" Margin="0 20 0 0" Text="This application uses HockeyApp service to collect anonymous usage metrics and crashes. This allows us to make the application better."/>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

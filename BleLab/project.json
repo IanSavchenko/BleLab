@@ -1,0 +1,20 @@
+﻿{
+  "dependencies": {
+    "Caliburn.Micro": "3.0.3",
+    "HockeySDK.UWP": "4.1.6",
+    "LiteDB": "3.1.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.1",
+    "Microsoft.Toolkit.Uwp.UI.Controls": "1.4.0"
+  },
+  "frameworks": {
+    "uap10.0": {}
+  },
+  "runtimes": {
+    "win10-arm": {},
+    "win10-arm-aot": {},
+    "win10-x86": {},
+    "win10-x86-aot": {},
+    "win10-x64": {},
+    "win10-x64-aot": {}
+  }
+}

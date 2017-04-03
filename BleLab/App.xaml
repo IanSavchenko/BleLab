@@ -1,0 +1,19 @@
+﻿<micro:CaliburnApplication
+    x:Class="BleLab.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:micro="using:Caliburn.Micro"
+    xmlns:converters="using:BleLab.Converters">
+
+    <micro:CaliburnApplication.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:BoolToVisibilityConverter x:Key="Bool2Vis" />
+        </ResourceDictionary>
+    </micro:CaliburnApplication.Resources>
+
+</micro:CaliburnApplication>
+

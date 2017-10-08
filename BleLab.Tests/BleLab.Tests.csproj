@@ -94,6 +94,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandBaseTests.cs" />
     <Compile Include="Commands\CommandRunnerTests.cs" />
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +129,9 @@
       <Project>{8FDB68C3-5CEC-40BE-9EA5-93C3F2EC841B}</Project>
       <Name>BleLab</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

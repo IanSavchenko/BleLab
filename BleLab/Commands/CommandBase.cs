@@ -62,11 +62,11 @@ namespace BleLab.Commands
             }
         }
 
-        public TaskCompletionSource<CommandStatus> GetTaskCompletionSource()
+        public Task<CommandStatus> GetStatusAsync()
         {
-            return _taskCompletionSource;
+            return _taskCompletionSource.Task;
         }
-        
+
         protected abstract Task DoExecuteAsync();
     }
 }

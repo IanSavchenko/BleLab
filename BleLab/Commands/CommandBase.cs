@@ -43,7 +43,7 @@ namespace BleLab.Commands
             }
         }
         
-        public async Task ExecuteAsync()
+        public virtual async Task ExecuteAsync()
         {
             try
             {

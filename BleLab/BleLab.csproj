@@ -103,12 +103,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\CancellableCommandBase.cs" />
     <Compile Include="Commands\Characteristic\BytesCommandBase.cs" />
     <Compile Include="Commands\Characteristic\CharacteristicCommandBase.cs" />
     <Compile Include="Commands\Characteristic\ClientConfigDescriptorCommandBase.cs" />
     <Compile Include="Commands\Characteristic\SubscribeCommand.cs" />
     <Compile Include="Commands\Characteristic\UnsubscribeCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\Exceptions\CommandTimeoutException.cs" />
+    <Compile Include="Commands\Exceptions\CommandCancelledException.cs" />
     <Compile Include="Commands\CommandException.cs" />
     <Compile Include="Commands\CommandExtensions.cs" />
     <Compile Include="Commands\CommandRunner.cs" />

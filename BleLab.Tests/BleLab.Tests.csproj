@@ -94,8 +94,10 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CancellableCommandBaseTests.cs" />
     <Compile Include="Commands\CommandBaseTests.cs" />
     <Compile Include="Commands\CommandRunnerTests.cs" />
+    <Compile Include="Commands\TestCancellableCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestApp.xaml.cs">

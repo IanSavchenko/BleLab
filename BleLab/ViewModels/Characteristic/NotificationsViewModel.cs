@@ -59,7 +59,7 @@ namespace BleLab.ViewModels.Characteristic
             {
                 CanChange = false;
 
-                var result = await _commandRunner.Enqueue(new ReadClientConfigDescriptorCommand(_characteristicInfo)).GetCompletedTask();
+                var result = await _commandRunner.Enqueue(new ReadClientConfigDescriptorCommand(_characteristicInfo)).GetTask();
                 if (result.Status == CommandStatus.Succeeded)
                 {
                     foreach (var descriptorViewModel in Descriptors)
@@ -87,7 +87,7 @@ namespace BleLab.ViewModels.Characteristic
             {
                 CanChange = false;
 
-                var result = await _commandRunner.Enqueue(new WriteClientConfigDescriptorCommand(_characteristicInfo, descriptor)).GetCompletedTask();
+                var result = await _commandRunner.Enqueue(new WriteClientConfigDescriptorCommand(_characteristicInfo, descriptor)).GetTask();
                 if (result.Status == CommandStatus.Succeeded)
                 {
                     foreach (var descriptrorViewModel in Descriptors)
@@ -107,7 +107,7 @@ namespace BleLab.ViewModels.Characteristic
             CanChange = false;
             try
             {
-                var result = await _commandRunner.Enqueue(new SubscribeCommand(_characteristicInfo)).GetCompletedTask();
+                var result = await _commandRunner.Enqueue(new SubscribeCommand(_characteristicInfo)).GetTask();
                 if (result.Status == CommandStatus.Succeeded)
                     IsSubscribed = true;
             }
@@ -123,7 +123,7 @@ namespace BleLab.ViewModels.Characteristic
             CanChange = false;
             try
             {
-                var result = await _commandRunner.Enqueue(new UnsubscribeCommand(_characteristicInfo)).GetCompletedTask();
+                var result = await _commandRunner.Enqueue(new UnsubscribeCommand(_characteristicInfo)).GetTask();
                 if (result.Status == CommandStatus.Succeeded)
                     IsSubscribed = false;
             }

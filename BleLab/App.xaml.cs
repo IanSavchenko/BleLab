@@ -49,7 +49,7 @@ namespace BleLab
             _container.Singleton<GattInformationProvider>().GetInstance<GattInformationProvider>().Initialize();
 
             _container.Singleton<InfoManager>();
-            _container.Singleton<CommandRunner>();
+            _container.Instance(new CommandRunner());
             _container.Singleton<EventTracer>();
             _container.Singleton<CharacteristicSubscriptionService>();
             _container.Singleton<DeviceController>();

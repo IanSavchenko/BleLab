@@ -144,7 +144,7 @@ namespace BleLab.ViewModels
 
         public async void Disconnect()
         {
-            await _commandRunner.EnqueueCommand(new DisconnectDeviceCommand()).GetCompletedTask();
+            await _commandRunner.Enqueue(new DisconnectDeviceCommand()).GetCompletedTask();
             TryClose();
         }
 
@@ -178,7 +178,7 @@ namespace BleLab.ViewModels
             {
                 IsConnecting = true;
 
-                var result = await _commandRunner.EnqueueCommand(new ConnectDeviceCommand(_deviceInfo)).GetCompletedTask();
+                var result = await _commandRunner.Enqueue(new ConnectDeviceCommand(_deviceInfo)).GetCompletedTask();
                 if (result.Status != CommandStatus.Succeeded)
                 {
                     await ShowCouldntConnectMessage();
@@ -192,7 +192,7 @@ namespace BleLab.ViewModels
 
                 _servicesCharacteristics.Clear();
 
-                var servicesResult = await _commandRunner.EnqueueCommand(new ListServicesCommand(_deviceInfo)).GetCompletedTask();
+                var servicesResult = await _commandRunner.Enqueue(new ListServicesCommand(_deviceInfo)).GetCompletedTask();
                 if (servicesResult.Status != CommandStatus.Succeeded)
                     return;
 
@@ -213,7 +213,7 @@ namespace BleLab.ViewModels
         private async Task<List<CharacteristicInfo>> LoadCharacteristics(ServiceInfo serviceInfo)
         {
             var resultList = new List<CharacteristicInfo>();
-            var result = await _commandRunner.EnqueueCommand(new ListCharacteristicsCommand(serviceInfo) { HideInConsole = true }).GetCompletedTask();
+            var result = await _commandRunner.Enqueue(new ListCharacteristicsCommand(serviceInfo) { HideInConsole = true }).GetCompletedTask();
             if (result.Status != CommandStatus.Succeeded)
                 return resultList;
 

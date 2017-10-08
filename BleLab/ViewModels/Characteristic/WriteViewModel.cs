@@ -171,7 +171,7 @@ namespace BleLab.ViewModels.Characteristic
             try
             {
                 CanWrite = false;
-                var result = await _commandRunner.EnqueueCommand(new WriteBytesCommand(_characteristicInfo, bytes, WriteWithoutResponce)).GetCompletedTask();
+                var result = await _commandRunner.Enqueue(new WriteBytesCommand(_characteristicInfo, bytes, WriteWithoutResponce)).GetCompletedTask();
             }
             finally
             {

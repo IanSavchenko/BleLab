@@ -3,63 +3,87 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Action = System.Action;
 
 namespace BleLab.Commands
 {
     public class CommandRunner
     {
+        private readonly Func<Action, Task> _executeUiThreadFunc;
         private readonly ConcurrentQueue<CommandBase> _commands = new ConcurrentQueue<CommandBase>();
-        
-        public event EventHandler<CommandRunnerEvent> CommandEnqueued;
-        public event EventHandler<CommandRunnerEvent> CommandDispatched;
-        public event EventHandler<CommandRunnerEvent> CommandExecuted; 
 
-        public T EnqueueCommand<T>(T command) where T : CommandBase
+        private int _executing = 0;
+        
+        public event EventHandler<CommandRunnerEvent> Enqueued;
+        public event EventHandler<CommandRunnerEvent> Dispatched;
+        public event EventHandler<CommandRunnerEvent> Executed;
+
+
+        public CommandRunner()
+        {
+            _executeUiThreadFunc = Execute.OnUIThreadAsync;
+        }
+
+
+        public CommandRunner(Func<Action, Task> executeUiThreadFunc = null) : this()
+        {
+            if (executeUiThreadFunc != null)
+            {
+                _executeUiThreadFunc = executeUiThreadFunc;
+            }
+        }
+
+
+        public T Enqueue<T>(T command) where T : CommandBase
         {
             _commands.Enqueue(command);
-            CommandEnqueued?.Invoke(this, new CommandRunnerEvent(command));
+
+            Enqueued?.Invoke(this, new CommandRunnerEvent(command));
+
             DispatchNext();
 
             return command;
         }
 
-        private void DispatchNext()
+
+        private async void DispatchNext()
         {
             if (_commands.Count == 0)
                 return;
 
-            if (!Monitor.TryEnter(_commands))
+            if (Interlocked.Exchange(ref _executing, 1) != 0)
                 return;
 
             try
             {
-                CommandBase command;
-                if (_commands.TryDequeue(out command))
-                    Dispatch(command);
+                if (_commands.TryDequeue(out var command))
+                    await Dispatch(command).ConfigureAwait(false);
             }
             finally
             {
-                Monitor.Exit(_commands);
+                Interlocked.Exchange(ref _executing, 0);
             }
+
+            DispatchNext();
         }
 
-        private void Dispatch(CommandBase command)
+
+        private async Task Dispatch(CommandBase command)
         {
-            if (command.RunOnUiThread)
-                Execute.OnUIThreadAsync(async () => await ExecuteAndDispatchNext(command));
-            else
-                Task.Run(async () => await ExecuteAndDispatchNext(command));
+            Dispatched?.Invoke(this, new CommandRunnerEvent(command));
 
-            CommandDispatched?.Invoke(this, new CommandRunnerEvent(command));
+            if (command.RunOnUiThread)
+                await _executeUiThreadFunc(async () => await ExecuteOne(command).ConfigureAwait(false)).ConfigureAwait(false);
+            else
+                await Task.Run(() => ExecuteOne(command)).ConfigureAwait(false);
         }
 
-        private async Task ExecuteAndDispatchNext(CommandBase command)
+
+        private async Task ExecuteOne(CommandBase command)
         {
             await command.ExecuteAsync().ConfigureAwait(false);
 
-            CommandExecuted?.Invoke(this, new CommandRunnerEvent(command));
-
-            DispatchNext();
+            Executed?.Invoke(this, new CommandRunnerEvent(command));
         }
     }
 }

@@ -101,7 +101,7 @@ namespace BleLab.ViewModels.Characteristic
             {
                 CanRead = false;
                 var result = await _commandRunner
-                    .EnqueueCommand(new ReadBytesCommand(_characteristicInfo, cached ? BluetoothCacheMode.Cached : BluetoothCacheMode.Uncached) { HideInConsole = hideInConsole })
+                    .Enqueue(new ReadBytesCommand(_characteristicInfo, cached ? BluetoothCacheMode.Cached : BluetoothCacheMode.Uncached) { HideInConsole = hideInConsole })
                     .GetCompletedTask();
 
                 if (result.Status != CommandStatus.Succeeded)

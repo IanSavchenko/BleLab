@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BleLab", "BleLab\BleLab.csproj", "{8FDB68C3-5CEC-40BE-9EA5-93C3F2EC841B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BleLab.Tests", "BleLab.Tests\BleLab.Tests.csproj", "{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -33,6 +35,24 @@ Global
 		{8FDB68C3-5CEC-40BE-9EA5-93C3F2EC841B}.Release|x86.ActiveCfg = Release|x86
 		{8FDB68C3-5CEC-40BE-9EA5-93C3F2EC841B}.Release|x86.Build.0 = Release|x86
 		{8FDB68C3-5CEC-40BE-9EA5-93C3F2EC841B}.Release|x86.Deploy.0 = Release|x86
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|ARM.Build.0 = Debug|ARM
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|ARM.Deploy.0 = Debug|ARM
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|x64.ActiveCfg = Debug|x64
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|x64.Build.0 = Debug|x64
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|x64.Deploy.0 = Debug|x64
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|x86.ActiveCfg = Debug|x86
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|x86.Build.0 = Debug|x86
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Debug|x86.Deploy.0 = Debug|x86
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|ARM.ActiveCfg = Release|ARM
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|ARM.Build.0 = Release|ARM
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|ARM.Deploy.0 = Release|ARM
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|x64.ActiveCfg = Release|x64
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|x64.Build.0 = Release|x64
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|x64.Deploy.0 = Release|x64
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|x86.ActiveCfg = Release|x86
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|x86.Build.0 = Release|x86
+		{9F5A1CB4-B6D5-41C0-BE73-43AD95A91FDA}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

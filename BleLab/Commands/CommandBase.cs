@@ -18,7 +18,7 @@ namespace BleLab.Commands
         
         public CommandStatus Status
         {
-            get { return _status; }
+            get => _status;
             protected set
             {
                 // if result already set, we should not change it
@@ -36,6 +36,9 @@ namespace BleLab.Commands
         {
             try
             {
+                if (Status != CommandStatus.None)
+                    return;
+
                 await DoExecuteAsync().ConfigureAwait(false);
                 Status = CommandStatus.Succeeded;
             }

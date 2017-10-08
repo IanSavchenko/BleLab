@@ -26,9 +26,9 @@ namespace BleLab.Services
             _subscriptionService = subscriptionService;
             _formatters = formatters.ToDictionary(formatter => formatter.CommandType);
 
-            _commandRunner.CommandExecuted += CommandRunnerOnCommandExecuted;
-            _commandRunner.CommandDispatched += CommandRunnerOnCommandDispatched;
-            _commandRunner.CommandEnqueued += CommandRunnerOnCommandEnqueued;
+            _commandRunner.Executed += RunnerOnExecuted;
+            _commandRunner.Dispatched += RunnerOnDispatched;
+            _commandRunner.Enqueued += RunnerOnEnqueued;
 
             subscriptionService.ValueChanged += SubscriptionServiceOnValueChanged;
         }
@@ -41,7 +41,7 @@ namespace BleLab.Services
             _commandPanelViewModel.AddMessage(formattedInput);
         }
 
-        private void CommandRunnerOnCommandEnqueued(object sender, CommandRunnerEvent commandRunnerEvent)
+        private void RunnerOnEnqueued(object sender, CommandRunnerEvent commandRunnerEvent)
         {
             if (commandRunnerEvent.Command.HideInConsole)
                 return;
@@ -52,7 +52,7 @@ namespace BleLab.Services
             Display(formatter.OnEnqueued(commandRunnerEvent.Command));
         }
 
-        private void CommandRunnerOnCommandDispatched(object sender, CommandRunnerEvent commandRunnerEvent)
+        private void RunnerOnDispatched(object sender, CommandRunnerEvent commandRunnerEvent)
         {
             if (commandRunnerEvent.Command.HideInConsole)
                 return;
@@ -63,7 +63,7 @@ namespace BleLab.Services
             Display(formatter.OnDispatched(commandRunnerEvent.Command));
         }
 
-        private void CommandRunnerOnCommandExecuted(object sender, CommandRunnerEvent commandRunnerEvent)
+        private void RunnerOnExecuted(object sender, CommandRunnerEvent commandRunnerEvent)
         {
             if (commandRunnerEvent.Command.HideInConsole)
                 return;

@@ -104,7 +104,7 @@ namespace BleLab.ViewModels
 
             Devices.Clear();
 
-            var result = await _commandRunner.EnqueueCommand(new ListDevicesCommand()).GetCompletedTask();
+            var result = await _commandRunner.Enqueue(new ListDevicesCommand()).GetCompletedTask();
             if (result.Status != CommandStatus.Succeeded)
             {
                 DiagnoseProblem();

@@ -20,7 +20,7 @@ namespace BleLab.Commands.Characteristic
 
         protected override async Task DoExecuteAsync()
         {
-            var result = await Characteristic.ReadValueAsync(CacheMode).AsTask().ConfigureAwait(false);
+            var result = await WindowsRuntimeSystemExtensions.AsTask(Characteristic.ReadValueAsync(CacheMode)).ConfigureAwait(false);
             if (result.Status == GattCommunicationStatus.Unreachable)
             {
                 throw new DeviceUnreachableException();

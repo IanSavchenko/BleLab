@@ -15,7 +15,7 @@ namespace BleLab.Commands.Characteristic
 
         protected override async Task DoExecuteAsync()
         {
-            var result = await Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(Descriptor).AsTask().ConfigureAwait(false);
+            var result = await WindowsRuntimeSystemExtensions.AsTask(Characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(Descriptor)).ConfigureAwait(false);
             if (result == GattCommunicationStatus.Unreachable)
                 throw new DeviceUnreachableException();
         }

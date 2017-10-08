@@ -25,7 +25,7 @@ namespace BleLab.Tests.Commands
             _instance.Enqueue(command);
 
             // Wait
-            await command.GetTask().ConfigureAwait(true);
+            await command.AsTask().ConfigureAwait(true);
 
             // Verify
             Assert.True(invoked);
@@ -52,7 +52,7 @@ namespace BleLab.Tests.Commands
             customUiThreadInstance.Enqueue(command);
 
             // Wait
-            await command.GetTask().ConfigureAwait(true);
+            await command.AsTask().ConfigureAwait(true);
 
             // Verify
             Assert.True(invoked);
@@ -90,8 +90,8 @@ namespace BleLab.Tests.Commands
 
             // Wait
             await Task.WhenAll(
-                cmd1.GetTask(), 
-                cmd2.GetTask())
+                cmd1.AsTask(), 
+                cmd2.AsTask())
             .ConfigureAwait(true);
             
             // Verify
@@ -129,7 +129,7 @@ namespace BleLab.Tests.Commands
             _instance.Enqueue(command);
 
             // Wait
-            await command.GetTask().ConfigureAwait(true);
+            await command.AsTask().ConfigureAwait(true);
 
             await Task.Delay(100).ConfigureAwait(true); // extra wait to ensure command cycle completed
 
@@ -167,7 +167,7 @@ namespace BleLab.Tests.Commands
             _instance.Enqueue(command);
 
             // Wait
-            await command.GetTask().ConfigureAwait(true);
+            await command.AsTask().ConfigureAwait(true);
             await Task.Delay(100).ConfigureAwait(true); // extra wait to ensure command cycle completed
         }
         
@@ -212,7 +212,7 @@ namespace BleLab.Tests.Commands
             tcs.SetResult(true);
 
             // Wait
-            await command.GetTask().ConfigureAwait(true);
+            await command.AsTask().ConfigureAwait(true);
 
             await Task.Delay(100).ConfigureAwait(true); // extra wait to ensure command cycle completed
 

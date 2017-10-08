@@ -4,7 +4,6 @@
     {
         None,
         Succeeded,
-        Unreachable,
         Exception
     }
 }

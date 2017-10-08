@@ -7,6 +7,7 @@ namespace BleLab.Commands
     {
         private readonly TaskCompletionSource<CommandStatus> _taskCompletionSource = new TaskCompletionSource<CommandStatus>();
         private CommandStatus _status = CommandStatus.None;
+        private Exception _exception;
 
         public event EventHandler Completed;
         
@@ -14,8 +15,18 @@ namespace BleLab.Commands
 
         public bool HideInConsole { get; set; }
 
-        public Exception Exception { get; protected set; }
-        
+        public Exception Exception
+        {
+            get => _exception;
+            protected set
+            {
+                if (_exception != null)
+                    return;
+
+                _exception = value;
+            }
+        }
+
         public CommandStatus Status
         {
             get => _status;

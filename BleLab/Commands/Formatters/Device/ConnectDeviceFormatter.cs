@@ -20,8 +20,6 @@ namespace BleLab.Commands.Formatters.Device
             {
                 case CommandStatus.Succeeded:
                     return "Successfully connected.";
-                case CommandStatus.Unreachable:
-                    return "Device unreachable.";
                 case CommandStatus.Exception:
                     return $"Exception while connecting: {command.Exception.Message}";
                 default:

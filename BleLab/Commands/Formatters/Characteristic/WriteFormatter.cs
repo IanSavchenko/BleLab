@@ -20,9 +20,6 @@ namespace BleLab.Commands.Formatters.Characteristic
             if (command.Status == CommandStatus.Succeeded)
                 return "Successfull write";
 
-            if (command.Status == CommandStatus.Unreachable)
-                return "Device unreachable";
-
             if (command.Status == CommandStatus.Exception)
                 return $"Exception when writing: {command.Exception.Message}";
 

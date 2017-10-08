@@ -20,9 +20,6 @@ namespace BleLab.Commands.Formatters.Characteristic
             if (command.Status == CommandStatus.Succeeded)
                 return $"{command.Bytes.AsString()}";
 
-            if (command.Status == CommandStatus.Unreachable)
-                return "Device unreachable";
-
             if (command.Status == CommandStatus.Exception)
                 return $"Exception while reading data: {command.Exception.Message}";
 

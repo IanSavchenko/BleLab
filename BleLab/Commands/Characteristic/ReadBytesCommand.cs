@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Storage.Streams;
+using BleLab.Commands.Exceptions;
 using BleLab.Model;
 
 namespace BleLab.Commands.Characteristic
@@ -22,8 +23,7 @@ namespace BleLab.Commands.Characteristic
             var result = await Characteristic.ReadValueAsync(CacheMode).AsTask().ConfigureAwait(false);
             if (result.Status == GattCommunicationStatus.Unreachable)
             {
-                Status = CommandStatus.Unreachable;
-                return;
+                throw new DeviceUnreachableException();
             }
 
             Bytes = ToArraySafe(result.Value);

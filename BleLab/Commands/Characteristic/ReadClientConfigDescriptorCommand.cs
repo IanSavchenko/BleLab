@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using BleLab.Commands.Exceptions;
 using BleLab.Model;
 
 namespace BleLab.Commands.Characteristic
@@ -16,8 +17,7 @@ namespace BleLab.Commands.Characteristic
             var result = await Characteristic.ReadClientCharacteristicConfigurationDescriptorAsync().AsTask().ConfigureAwait(false);
             if (result.Status == GattCommunicationStatus.Unreachable)
             {
-                Status = CommandStatus.Unreachable;
-                return;
+                throw new DeviceUnreachableException();
             }
 
             Descriptor = result.ClientCharacteristicConfigurationDescriptor;

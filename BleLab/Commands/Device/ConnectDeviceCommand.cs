@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
+using BleLab.Commands.Exceptions;
 using BleLab.Model;
 using BleLab.Services;
 using Caliburn.Micro;
@@ -29,7 +30,7 @@ namespace BleLab.Commands.Device
             Device = _deviceController.ConnectedDevice;
 
             if (_deviceController.ConnectedDevice == null)
-                Status = CommandStatus.Unreachable;
+                throw new DeviceUnreachableException();
         }
     }
 }

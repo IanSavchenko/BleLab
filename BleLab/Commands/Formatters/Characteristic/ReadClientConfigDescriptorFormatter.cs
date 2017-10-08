@@ -20,8 +20,6 @@ namespace BleLab.Commands.Formatters.Characteristic
             {
                 case CommandStatus.Succeeded:
                     return command.Descriptor.ToString();
-                case CommandStatus.Unreachable:
-                    return "Device unreachable";
                 case CommandStatus.Exception:
                     return $"Exception: {command.Exception.Message}";
                 default:

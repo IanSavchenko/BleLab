@@ -8,7 +8,7 @@ namespace BleLab.Commands.Characteristic
 {
     public abstract class CharacteristicCommandBase : CommandBase
     {
-        private DeviceController _deviceController;
+        private readonly DeviceController _deviceController;
 
         protected CharacteristicCommandBase(CharacteristicInfo characteristicInfo)
         {
@@ -16,7 +16,7 @@ namespace BleLab.Commands.Characteristic
             _deviceController = IoC.Get<DeviceController>();
         }
 
-        public CharacteristicInfo CharacteristicInfo { get; private set; }
+        public CharacteristicInfo CharacteristicInfo { get; }
 
         protected GattCharacteristic Characteristic
         {

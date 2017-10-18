@@ -33,7 +33,7 @@ namespace BleLab.ViewModels.Characteristic
 
         public byte[] ReadValue
         {
-            get { return _readValue; }
+            get => _readValue;
             set
             {
                 if (Equals(value, _readValue)) return;
@@ -50,7 +50,7 @@ namespace BleLab.ViewModels.Characteristic
 
         public string ReadSource
         {
-            get { return _readSource; }
+            get => _readSource;
             set
             {
                 if (value == _readSource) return;
@@ -61,7 +61,7 @@ namespace BleLab.ViewModels.Characteristic
 
         public bool CanRead
         {
-            get { return _canRead; }
+            get => _canRead;
             set
             {
                 if (value == _canRead) return;
@@ -77,7 +77,7 @@ namespace BleLab.ViewModels.Characteristic
 
         public BytesDisplayFormatViewModel SelectedDisplayFormat
         {
-            get { return _selectedDisplayFormat; }
+            get => _selectedDisplayFormat;
             set
             {
                 if (value == _selectedDisplayFormat) return;
@@ -92,7 +92,7 @@ namespace BleLab.ViewModels.Characteristic
         
         public async void Read()
         {
-            await DoReadValue(FromCache);
+            await DoReadValue(FromCache).ConfigureAwait(true);
         }
 
         private async Task DoReadValue(bool cached, bool hideInConsole = false)
@@ -102,12 +102,12 @@ namespace BleLab.ViewModels.Characteristic
                 CanRead = false;
                 var result = await _commandRunner
                     .Enqueue(new ReadBytesCommand(_characteristicInfo, cached ? BluetoothCacheMode.Cached : BluetoothCacheMode.Uncached) { HideInConsole = hideInConsole })
-                    .AsTask();
+                    .AsTask().ConfigureAwait(true);
 
                 if (result.Status != CommandStatus.Succeeded)
                 {
                     ReadValue = null;
-                    ReadSource = "Device unreachable";
+                    ReadSource = "Operation unsuccessful";
                     return;
                 }
 

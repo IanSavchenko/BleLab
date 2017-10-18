@@ -12,7 +12,7 @@ namespace BleLab.Commands.Formatters.Characteristic
 
         public override object OnDispatched(WriteBytesCommand command)
         {
-            return $"WriteBytes {(command.WithoutResponse ? "WithoutResponce " : string.Empty)}{command.CharacteristicInfo.Uuid} {command.Bytes.AsString()}";
+            return $"WriteBytes {(command.WithoutResponse ? "WithoutResponce " : string.Empty)}{command.CharacteristicInfo.Uuid} {command.Bytes.AsString(command.CharacteristicInfo.WriteDisplayFormat)}";
         }
 
         public override object OnExecuted(WriteBytesCommand command)

@@ -18,7 +18,7 @@ namespace BleLab.Commands.Formatters.Characteristic
         public override object OnExecuted(ReadBytesCommand command)
         {
             if (command.Status == CommandStatus.Succeeded)
-                return $"{command.Bytes.AsString()}";
+                return $"{command.Bytes.AsString(command.CharacteristicInfo.ReadDisplayFormat)}";
 
             if (command.Status == CommandStatus.Exception)
                 return $"Exception while reading data: {command.Exception.Message}";

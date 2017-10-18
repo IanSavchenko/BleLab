@@ -15,7 +15,7 @@ namespace BleLab.ViewModels
         public CommandPanelViewModel()
         {
             _dispatcher = Window.Current.Dispatcher;
-            FontSize = 10;
+            FontSize = 10; // ToDo: read from settings
         }
 
         public void AddMessage(object message)
@@ -42,7 +42,7 @@ namespace BleLab.ViewModels
 
         public int FontSize
         {
-            get { return _fontSize; }
+            get => _fontSize;
             set
             {
                 if (value == _fontSize) return;
@@ -74,11 +74,16 @@ namespace BleLab.ViewModels
             _view.Clear();
         }
 
+        public void ResetTimeDiff()
+        {
+            _view.ResetTimeDiff();
+        }
+
         protected override void OnViewAttached(object view, object context)
         {
             _view = (CommandPanelView)view;
         }
-
+    
         protected override void OnViewLoaded(object view)
         {
 

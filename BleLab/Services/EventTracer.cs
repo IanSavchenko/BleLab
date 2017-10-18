@@ -33,6 +33,11 @@ namespace BleLab.Services
             subscriptionService.ValueChanged += SubscriptionServiceOnValueChanged;
         }
 
+        private void ResetTimeDiff()
+        {
+            _commandPanelViewModel.ResetTimeDiff();
+        }
+        
         private void Display(object formattedInput)
         {
             if (formattedInput == null)
@@ -60,6 +65,7 @@ namespace BleLab.Services
             if (!_formatters.TryGetValue(commandRunnerEvent.Command.GetType(), out ICommandFormatter formatter))
                 return;
 
+            ResetTimeDiff();
             Display(formatter.OnDispatched(commandRunnerEvent.Command));
         }
 

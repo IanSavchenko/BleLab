@@ -153,6 +153,7 @@
     <Compile Include="Services\InfoManager.cs" />
     <Compile Include="Services\CharacteristicSubscriptionService.cs" />
     <Compile Include="GattInformation\GattInformationProvider.cs" />
+    <Compile Include="Settings\Keeper.cs" />
     <Compile Include="Utils\BytesFormatting.cs" />
     <Compile Include="Utils\DelegateCommand.cs" />
     <Compile Include="Utils\UtilExtensions.cs" />
@@ -358,6 +359,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

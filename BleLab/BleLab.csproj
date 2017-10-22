@@ -153,7 +153,12 @@
     <Compile Include="Services\InfoManager.cs" />
     <Compile Include="Services\CharacteristicSubscriptionService.cs" />
     <Compile Include="GattInformation\GattInformationProvider.cs" />
+    <Compile Include="Settings\AppContainerKeeperStorage.cs" />
+    <Compile Include="Settings\IKeeperStorage.cs" />
     <Compile Include="Settings\Keeper.cs" />
+    <Compile Include="Settings\KeeperPropertyAttribute.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\State.cs" />
     <Compile Include="Utils\BytesFormatting.cs" />
     <Compile Include="Utils\DelegateCommand.cs" />
     <Compile Include="Utils\UtilExtensions.cs" />

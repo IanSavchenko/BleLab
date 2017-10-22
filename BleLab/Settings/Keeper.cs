@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Windows.Storage;
 
 namespace BleLab.Settings
 {
@@ -44,8 +42,7 @@ namespace BleLab.Settings
 
             return default(T);
         }
-
-
+        
         protected CustomAttributeData AttributeForProperty(string propertyName)
         {
             var attribute = GetType().GetTypeInfo().GetDeclaredProperty(propertyName).CustomAttributes.FirstOrDefault(ca => ca.AttributeType == typeof(KeeperPropertyAttribute));
@@ -68,65 +65,6 @@ namespace BleLab.Settings
 
             var defaultValue = attribute?.NamedArguments.First(t => t.MemberName == nameof(KeeperPropertyAttribute.DefaultValue)).TypedValue.Value;
             return defaultValue;
-        }
-    }
-
-    public interface IKeeperStorage
-    {
-        bool HasKey(string key);
-
-        object GetValue(string key);
-
-        void SetValue(string key, object value);
-    }
-
-    public class AppContainerKeeperStorage : IKeeperStorage
-    {
-        private readonly ApplicationDataContainer _container;
-
-        public AppContainerKeeperStorage(ApplicationDataContainer container = null)
-        {
-            if (container == null)
-                container = ApplicationData.Current.LocalSettings;
-
-            _container = container;
-        }
-
-        public virtual bool HasKey(string key)
-        {
-            return _container.Values.ContainsKey(key);
-        }
-
-        public virtual object GetValue(string key)
-        {
-            return _container.Values[key];
-        }
-
-        public virtual void SetValue(string key, object value)
-        {
-            _container.Values[key] = value;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class KeeperPropertyAttribute : Attribute
-    {
-        public object DefaultValue { get; set; }
-
-        public string PersistentKey { get; set; }
-    }
-
-    public class Settings : Keeper
-    {
-        public Settings() : base(new AppContainerKeeperStorage(ApplicationData.Current.LocalSettings))
-        {
-        }
-
-        [KeeperProperty(DefaultValue = true, PersistentKey = "F6DF7E3F-308D-474B-8F6F-E10B7E309EB7")]
-        public bool Test
-        {
-            get => Get<bool>();
-            set => Set(value);
         }
     }
 }

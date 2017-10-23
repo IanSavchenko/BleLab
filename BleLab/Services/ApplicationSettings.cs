@@ -3,9 +3,9 @@ using BleLab.Utils.Keeper;
 
 namespace BleLab.Services
 {
-    public class Settings : Keeper
+    public class ApplicationSettings : Keeper
     {
-        public Settings() : base(new AppContainerKeeperStorage(ApplicationData.Current.LocalSettings))
+        public ApplicationSettings() : base(new AppContainerKeeperStorage(ApplicationData.Current.LocalSettings))
         {
         }
 

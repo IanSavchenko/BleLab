@@ -3,12 +3,12 @@ using BleLab.Utils.Keeper;
 
 namespace BleLab.Services
 {
-    public class State : Keeper
+    public class ApplicationState : Keeper
     {
-        public State() : base(
+        public ApplicationState() : base(
             new AppContainerKeeperStorage(
                 ApplicationData.Current.LocalSettings
-                .CreateContainer("State", ApplicationDataCreateDisposition.Always)))
+                .CreateContainer("ApplicationState", ApplicationDataCreateDisposition.Always)))
         {
         }
 

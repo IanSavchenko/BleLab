@@ -55,15 +55,27 @@ namespace BleLab.Utils.Keeper
             if (attribute == null)
                 return propertyName;
 
-            var persistentKey = (string)attribute.NamedArguments.First(t => t.MemberName == nameof(KeeperPropertyAttribute.PersistentKey)).TypedValue.Value;
+            var persistentKeyProperty = attribute.NamedArguments.FirstOrDefault(t => t.MemberName == nameof(KeeperPropertyAttribute.PersistentKey));
+            if (persistentKeyProperty.Equals(default(CustomAttributeNamedArgument)))
+            {
+                return propertyName;
+            }
+
+            var persistentKey = (string)persistentKeyProperty.TypedValue.Value;
             return persistentKey ?? propertyName;
         }
 
         protected object DefaultValueForProperty(string propertyName)
         {
             var attribute = AttributeForProperty(propertyName);
+            if (attribute == null)
+                return null;
 
-            var defaultValue = attribute?.NamedArguments.First(t => t.MemberName == nameof(KeeperPropertyAttribute.DefaultValue)).TypedValue.Value;
+            var defaultValueProperty = attribute.NamedArguments.FirstOrDefault(t => t.MemberName == nameof(KeeperPropertyAttribute.DefaultValue));
+            if (defaultValueProperty.Equals(default(CustomAttributeNamedArgument)))
+                return null;
+
+            var defaultValue = defaultValueProperty.TypedValue.Value;
             return defaultValue;
         }
     }

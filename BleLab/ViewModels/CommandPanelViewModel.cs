@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
+using BleLab.Services;
 using BleLab.Views;
 using Caliburn.Micro;
 
@@ -8,14 +9,16 @@ namespace BleLab.ViewModels
 {
     public class CommandPanelViewModel : Screen
     {
+        private readonly ApplicationState _applicationState;
         private readonly CoreDispatcher _dispatcher;
         private CommandPanelView _view;
         private int _fontSize;
 
-        public CommandPanelViewModel()
+        public CommandPanelViewModel(ApplicationState applicationState)
         {
+            _applicationState = applicationState;
             _dispatcher = Window.Current.Dispatcher;
-            FontSize = 10; // ToDo: read from settings
+            FontSize = applicationState.ConsoleFontSize;
         }
 
         public void AddMessage(object message)
@@ -47,6 +50,7 @@ namespace BleLab.ViewModels
             {
                 if (value == _fontSize) return;
                 _fontSize = value;
+                _applicationState.ConsoleFontSize = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -82,6 +86,8 @@ namespace BleLab.ViewModels
         protected override void OnViewAttached(object view, object context)
         {
             _view = (CommandPanelView)view;
+            _view.IsExpanded = _applicationState.ConsoleExpanded;
+            _view.RegisterPropertyChangedCallback(CommandPanelView.IsExpandedProperty, (sender, dp) => _applicationState.ConsoleExpanded = _view.IsExpanded);
         }
     
         protected override void OnViewLoaded(object view)

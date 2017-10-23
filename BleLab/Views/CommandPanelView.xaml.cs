@@ -20,6 +20,15 @@ namespace BleLab.Views
             Hide();
         }
 
+        public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
+            "IsExpanded", typeof(bool), typeof(CommandPanelView), new PropertyMetadata(default(bool), OnIsExpandedChanged));
+
+        public bool IsExpanded
+        {
+            get => (bool)GetValue(IsExpandedProperty);
+            set => SetValue(IsExpandedProperty, value);
+        }
+
         public void ResetTimeDiff()
         {
             _prevCommandTime = default(DateTimeOffset);
@@ -50,6 +59,20 @@ namespace BleLab.Views
         public void Clear()
         {
             Viewer.Blocks.Clear();
+        }
+
+        private static void OnIsExpandedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            var panel = (CommandPanelView)dependencyObject;
+            var isExpanded = (bool)args.NewValue;
+            if (isExpanded)
+            {
+                panel.Expand();
+            }
+            else
+            {
+                panel.Hide();
+            }
         }
 
         private void PrepandTime(Paragraph paragraph)
@@ -89,12 +112,12 @@ namespace BleLab.Views
         
         private void Expand_OnClick(object sender, RoutedEventArgs e)
         {
-            Expand();
+            IsExpanded = true;
         }
 
         private void Hide_OnClick(object sender, RoutedEventArgs e)
         {
-            Hide();
+            IsExpanded = false;
         }
 
         private void Expand()

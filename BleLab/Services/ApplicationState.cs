@@ -13,7 +13,7 @@ namespace BleLab.Services
         }
 
         [KeeperProperty(DefaultValue = true)]
-        public bool ConsoleOpen
+        public bool ConsoleExpanded
         {
             get => Get<bool>();
             set => Set(value);

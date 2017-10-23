@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.UI;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using BleLab.Commands;
 using BleLab.Commands.Formatters.Characteristic;
 using BleLab.Commands.Formatters.Device;
@@ -55,6 +52,9 @@ namespace BleLab
             _container.Singleton<DeviceController>();
 
             _container.Singleton<CommandPanelViewModel>();
+
+            _container.Singleton<Services.ApplicationSettings>();
+            _container.Singleton<ApplicationState>();
 
             _container
                 .PerRequest<MainViewModel>()

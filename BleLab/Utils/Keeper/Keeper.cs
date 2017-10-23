@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace BleLab.Settings
+namespace BleLab.Utils.Keeper
 {
     public abstract class Keeper
     {

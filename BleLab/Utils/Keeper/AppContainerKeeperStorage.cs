@@ -1,6 +1,6 @@
 ﻿using Windows.Storage;
 
-namespace BleLab.Settings
+namespace BleLab.Utils.Keeper
 {
     public class AppContainerKeeperStorage : IKeeperStorage
     {

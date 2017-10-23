@@ -1,4 +1,4 @@
-﻿namespace BleLab.Settings
+﻿namespace BleLab.Utils.Keeper
 {
     public interface IKeeperStorage
     {

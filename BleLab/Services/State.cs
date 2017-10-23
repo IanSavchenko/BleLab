@@ -1,6 +1,7 @@
 ﻿using Windows.Storage;
+using BleLab.Utils.Keeper;
 
-namespace BleLab.Settings
+namespace BleLab.Services
 {
     public class State : Keeper
     {

@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>BleLab_StoreKey.pfx</PackageCertificateKeyFile>
     <HockeyAppResourceId>961a62efc1d54798b7b2425e61abf7b2</HockeyAppResourceId>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>856EE3D199B92CEDD2D98CBC8E7937AED07554F6</PackageCertificateThumbprint>

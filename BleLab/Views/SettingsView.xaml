@@ -4,23 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="390"
+    d:DesignWidth="411"
+    mc:Ignorable="d">
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Style="{StaticResource TopLevelViewHeaderGridStyle}" VerticalAlignment="Top">
+        <Grid VerticalAlignment="Top" Style="{StaticResource TopLevelViewHeaderGridStyle}">
             <TextBlock Style="{ThemeResource TopLevelViewHeaderTitleTextBlockStyle}">Settings</TextBlock>
         </Grid>
-        
+
         <Grid Style="{StaticResource TopLevelViewContentGridStyle}">
-            <TextBlock Style="{ThemeResource TitleTextBlockStyle}">
-                <Run>Nothing here yet...</Run>
-                <LineBreak/>
-                <Run FontSize="18">Please, come by in the next updates or feel free&#160;</Run><Hyperlink NavigateUri="https://github.com/IanSavchenko/BleLab" FontSize="18">to take the initiave.</Hyperlink>
-                <LineBreak/>
-                
-            </TextBlock>
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="ToggleSwitch">
+                        <Setter Property="Margin" Value="0 10 0 0" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Style="{ThemeResource TitleTextBlockStyle}">
+                    <Run>Console</Run>
+                </TextBlock>
+
+                <ToggleSwitch x:Name="ConsoleShowTime">Show command time</ToggleSwitch>
+                <ToggleSwitch x:Name="ConsoleShowTimeDiff">Show command start/end time difference</ToggleSwitch>
+            </StackPanel>
         </Grid>
-     </StackPanel>
+    </StackPanel>
 </UserControl>

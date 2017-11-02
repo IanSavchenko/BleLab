@@ -44,7 +44,7 @@ namespace BleLab.Services
                 return;
 
             var deviceId = device.DeviceId;
-            var characteristics = _subscribedCharacteristics.Values.Where(t => t.Service.DeviceId == deviceId).ToList();
+            var characteristics = _subscribedCharacteristics.Values.Where(t => t.Service.Device.DeviceId == deviceId).ToList();
 
             foreach (var characteristic in characteristics)
             {

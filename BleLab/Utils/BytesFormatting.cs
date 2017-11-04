@@ -16,7 +16,7 @@ namespace BleLab.Utils
 
             if (bytes.Length == 0)
                 return "<empty array>";
-
+            
             switch (format)
             {
                 case BytesDisplayFormat.Decimal:
@@ -30,7 +30,7 @@ namespace BleLab.Utils
                 case BytesDisplayFormat.Utf16Be:
                     return Encoding.BigEndianUnicode.GetString(bytes);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(format), format, "Invalid format for bytes formatter");
             }
         }
 

@@ -9,5 +9,7 @@ namespace BleLab.Commands.Characteristic
         }
 
         public byte[] Bytes { get; protected set; }
+
+        public BytesDisplayFormat BytesDisplayFormat { get; set; }
     }
 }

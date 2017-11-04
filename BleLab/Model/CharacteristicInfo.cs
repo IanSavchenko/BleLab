@@ -38,6 +38,8 @@ namespace BleLab.Model
 
         public BytesDisplayFormat WriteDisplayFormat { get; set; }
 
+        public BytesDisplayFormat NotificationDisplayFormat { get; set; }
+
 
         public string Notes { get; set; }
 

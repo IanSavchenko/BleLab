@@ -8,14 +8,18 @@ namespace BleLab.Services
 {
     public class DeviceController
     {
-        private readonly CharacteristicSubscriptionService _characteristicSubscriptionService;
         private readonly InfoManager _infoManager;
 
-        public DeviceController(CharacteristicSubscriptionService characteristicSubscriptionService, InfoManager infoManager)
+        public DeviceController(InfoManager infoManager)
         {
-            _characteristicSubscriptionService = characteristicSubscriptionService;
             _infoManager = infoManager;
         }
+
+        public event EventHandler DeviceConnected;
+
+        public event EventHandler DeviceDisconnecting;
+
+        public event EventHandler DeviceDisconnected;
 
         public BluetoothLEDevice ConnectedDevice { get; private set; }
 
@@ -31,17 +35,21 @@ namespace BleLab.Services
             deviceInfo.Name = ConnectedDevice.Name;
 
             _infoManager.SaveDevice(deviceInfo);
+
+            DeviceConnected?.Invoke(this, EventArgs.Empty);
         }
 
         public void Disconnect()
         {
             if (ConnectedDevice == null)
                 return;
-
-            _characteristicSubscriptionService.DeviceDisconnected(ConnectedDevice);
+            
+            DeviceDisconnecting?.Invoke(this, EventArgs.Empty);
 
             ConnectedDevice.Dispose();
             ConnectedDevice = null;
+
+            DeviceDisconnected?.Invoke(this, EventArgs.Empty);
         }
     }
 }

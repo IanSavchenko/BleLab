@@ -103,6 +103,7 @@ namespace BleLab.Services
                     characteristicInfo.Uuid = gattCharacteristic.Uuid;
                     characteristicInfo.ReadDisplayFormat = BytesDisplayFormat.Decimal;
                     characteristicInfo.WriteDisplayFormat = BytesDisplayFormat.Auto;
+                    characteristicInfo.NotificationDisplayFormat = BytesDisplayFormat.Decimal;
 
                     var gattInfo = _gattInformationProvider.GetCharacteristicInfo(serviceInfo.Uuid, characteristicInfo.Uuid);
                     if (gattInfo != null)

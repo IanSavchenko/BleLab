@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using BleLab.Commands;
+using BleLab.Model;
 using BleLab.Utils;
 using BleLab.ViewModels;
 
@@ -80,9 +81,9 @@ namespace BleLab.Services
             Display(formatter.OnExecuted(commandRunnerEvent.Command));
         }
         
-        private void SubscriptionServiceOnValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
+        private void SubscriptionServiceOnValueChanged(CharacteristicInfo sender, GattValueChangedEventArgs args)
         {
-            Display($"Event in characteristic {sender.Uuid}: {args.CharacteristicValue.ToArraySafe().AsString()}");
+            Display($"Event in \"{sender.Name}\" ({sender.Uuid}):{Environment.NewLine}{args.CharacteristicValue.ToArraySafe().AsString(sender.NotificationDisplayFormat)}");
         }
     }
 }

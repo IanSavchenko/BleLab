@@ -4,30 +4,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    mc:Ignorable="d">
 
     <StackPanel>
         <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Reading</TextBlock>
 
         <TextBox
-            TextWrapping="Wrap"
-            x:Name="ReadValueString" 
+            x:Name="ReadValueString"
             FontFamily="Consolas"
-            IsReadOnly="True"/>
+            IsReadOnly="True"
+            TextWrapping="Wrap" />
 
         <Grid>
-            <TextBlock x:Name="ReadSource" 
-                       VerticalAlignment="Center"
-                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
-            <ComboBox x:Name="DisplayFormats" 
-                      DisplayMemberPath="AsString"
-                      HorizontalAlignment="Right"/>
+            <TextBlock
+                x:Name="ReadSource"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource SystemControlForegroundAccentBrush}" />
+            <ComboBox
+                x:Name="DisplayFormats"
+                HorizontalAlignment="Right"
+                DisplayMemberPath="AsString" />
         </Grid>
-        
+
         <StackPanel Orientation="Horizontal">
-            <Button Margin="0 10 10 10" x:Name="Read">Read</Button>
+            <Button x:Name="Read" Margin="0 10 10 10">Read</Button>
             <CheckBox x:Name="FromCache" HorizontalAlignment="Right">From system cache</CheckBox>
         </StackPanel>
     </StackPanel>

@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using BleLab.Commands;
 using BleLab.Commands.Characteristic;
 using BleLab.Model;
+using BleLab.Services;
 using Caliburn.Micro;
 
 namespace BleLab.ViewModels.Characteristic
@@ -10,9 +14,11 @@ namespace BleLab.ViewModels.Characteristic
     public class NotificationsViewModel : PropertyChangedBase
     {
         private readonly CharacteristicInfo _characteristicInfo;
+        private readonly Lazy<InfoManager> _infoManagerLazy = new Lazy<InfoManager>(() => IoC.Get<InfoManager>());
         private readonly CommandRunner _commandRunner;
         private bool _canChange = true;
         private bool _isSubscribed;
+        private BytesDisplayFormatViewModel _selectedDisplayFormat;
 
         public NotificationsViewModel(CharacteristicInfo characteristicInfo)
         {
@@ -27,13 +33,20 @@ namespace BleLab.ViewModels.Characteristic
             
             if (properties.HasFlag(GattCharacteristicProperties.Notify))
                 Descriptors.Add(new ClientDescriptorViewModel(GattClientCharacteristicConfigurationDescriptorValue.Notify, "Notify"));
+
+            _selectedDisplayFormat = DisplayFormats.FirstOrDefault(x => x.Model == characteristicInfo.NotificationDisplayFormat) ?? DisplayFormats[0];
+            if (_selectedDisplayFormat.Model != characteristicInfo.NotificationDisplayFormat)
+            {
+                _characteristicInfo.NotificationDisplayFormat = _selectedDisplayFormat.Model;
+                Task.Run(() => _infoManagerLazy.Value.SaveCharacteristic(_characteristicInfo));
+            }
         }
 
         public List<ClientDescriptorViewModel> Descriptors { get; }
 
         public bool CanChange
         {
-            get { return _canChange; }
+            get => _canChange;
             set
             {
                 if (value == _canChange) return;
@@ -44,12 +57,31 @@ namespace BleLab.ViewModels.Characteristic
 
         public bool IsSubscribed
         {
-            get { return _isSubscribed; }
+            get => _isSubscribed;
             set
             {
                 if (value == _isSubscribed) return;
                 _isSubscribed = value;
                 NotifyOfPropertyChange();
+            }
+        }
+
+        public List<BytesDisplayFormatViewModel> DisplayFormats { get; } =
+            new[] { BytesDisplayFormat.Decimal, BytesDisplayFormat.Hexadecimal, BytesDisplayFormat.Utf8, BytesDisplayFormat.Utf16, BytesDisplayFormat.Utf16Be }
+                .Select(x => new BytesDisplayFormatViewModel(x))
+                .ToList();
+
+        public BytesDisplayFormatViewModel SelectedDisplayFormat
+        {
+            get => _selectedDisplayFormat;
+            set
+            {
+                if (value == _selectedDisplayFormat) return;
+                _selectedDisplayFormat = value;
+                NotifyOfPropertyChange();
+
+                _characteristicInfo.NotificationDisplayFormat = _selectedDisplayFormat.Model;
+                Task.Run(() => _infoManagerLazy.Value.SaveCharacteristic(_characteristicInfo));
             }
         }
 
@@ -59,7 +91,7 @@ namespace BleLab.ViewModels.Characteristic
             {
                 CanChange = false;
 
-                var result = await _commandRunner.Enqueue(new ReadClientConfigDescriptorCommand(_characteristicInfo)).AsTask();
+                var result = await _commandRunner.Enqueue(new ReadClientConfigDescriptorCommand(_characteristicInfo)).AsTask().ConfigureAwait(true);
                 if (result.Status == CommandStatus.Succeeded)
                 {
                     foreach (var descriptorViewModel in Descriptors)
@@ -87,7 +119,7 @@ namespace BleLab.ViewModels.Characteristic
             {
                 CanChange = false;
 
-                var result = await _commandRunner.Enqueue(new WriteClientConfigDescriptorCommand(_characteristicInfo, descriptor)).AsTask();
+                var result = await _commandRunner.Enqueue(new WriteClientConfigDescriptorCommand(_characteristicInfo, descriptor)).AsTask().ConfigureAwait(true);
                 if (result.Status == CommandStatus.Succeeded)
                 {
                     foreach (var descriptrorViewModel in Descriptors)
@@ -107,7 +139,7 @@ namespace BleLab.ViewModels.Characteristic
             CanChange = false;
             try
             {
-                var result = await _commandRunner.Enqueue(new SubscribeCommand(_characteristicInfo)).AsTask();
+                var result = await _commandRunner.Enqueue(new SubscribeCommand(_characteristicInfo)).AsTask().ConfigureAwait(true);
                 if (result.Status == CommandStatus.Succeeded)
                     IsSubscribed = true;
             }
@@ -123,7 +155,7 @@ namespace BleLab.ViewModels.Characteristic
             CanChange = false;
             try
             {
-                var result = await _commandRunner.Enqueue(new UnsubscribeCommand(_characteristicInfo)).AsTask();
+                var result = await _commandRunner.Enqueue(new UnsubscribeCommand(_characteristicInfo)).AsTask().ConfigureAwait(true);
                 if (result.Status == CommandStatus.Succeeded)
                     IsSubscribed = false;
             }

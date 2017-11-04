@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="BleLab.Views.Characteristic.NotificationsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="300"
-             IsEnabled="{Binding CanChange}"
-             d:DesignWidth="400"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="BleLab.Views.Characteristic.NotificationsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    IsEnabled="{Binding CanChange}"
+    mc:Ignorable="d">
 
     <StackPanel>
         <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Notifications</TextBlock>
@@ -18,11 +19,24 @@
             <Button x:Name="Read" HorizontalAlignment="Right">Read state</Button>
         </Grid>
 
-        <Button x:Name="Subscribe" 
-                Width="150" 
-                Visibility="{Binding IsSubscribed, Converter={StaticResource Bool2Vis}, ConverterParameter=False}">Subscribe</Button>
-        <Button x:Name="Unsubscribe" 
-                Visibility="{Binding IsSubscribed, Converter={StaticResource Bool2Vis}}"
-                Width="150">Unsubscribe</Button>
+        <Grid>
+            <Button
+                x:Name="Subscribe"
+                Width="150"
+                Visibility="{Binding IsSubscribed, Converter={StaticResource Bool2Vis}, ConverterParameter=False}">
+                Subscribe
+            </Button>
+            <Button
+                x:Name="Unsubscribe"
+                Width="150"
+                Visibility="{Binding IsSubscribed, Converter={StaticResource Bool2Vis}}">
+                Unsubscribe
+            </Button>
+            <ComboBox
+                x:Name="DisplayFormats"
+                HorizontalAlignment="Right"
+                DisplayMemberPath="AsString" />
+        </Grid>
+
     </StackPanel>
 </UserControl>

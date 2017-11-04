@@ -1,33 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Foundation;
+using BleLab.Model;
 
 namespace BleLab.Services
 {
     public class CharacteristicSubscriptionService
     {
-        private readonly Dictionary<Guid, GattCharacteristic> _subscribedCharacteristics = new Dictionary<Guid, GattCharacteristic>();
+        private readonly DeviceController _deviceController;
+        private readonly Dictionary<Guid, CharacteristicInfo> _subscribedCharacteristics = new Dictionary<Guid, CharacteristicInfo>();
 
-        public event TypedEventHandler<GattCharacteristic, GattValueChangedEventArgs> ValueChanged; 
-
-        public bool Subscribe(GattCharacteristic characteristic)
+        public CharacteristicSubscriptionService(DeviceController deviceController)
         {
-            if (_subscribedCharacteristics.ContainsKey(characteristic.Uuid))
+            _deviceController = deviceController;
+            _deviceController.DeviceDisconnecting += DeviceControllerOnDeviceDisconnecting;
+        }
+
+        public event TypedEventHandler<CharacteristicInfo, GattValueChangedEventArgs> ValueChanged; 
+
+        public bool Subscribe(CharacteristicInfo characteristicInfo)
+        {
+            if (_subscribedCharacteristics.ContainsKey(characteristicInfo.Uuid))
                 return false;
 
+            var characteristic = GetCharacteristic(characteristicInfo);
             characteristic.ValueChanged += CharacteristicOnValueChanged;
-            _subscribedCharacteristics.Add(characteristic.Uuid, characteristic);
+            _subscribedCharacteristics.Add(characteristicInfo.Uuid, characteristicInfo);
             return true;
         }
 
-        public bool Unsubscribe(GattCharacteristic characteristic)
+        public bool Unsubscribe(CharacteristicInfo characteristicInfo)
         {
-            if (!_subscribedCharacteristics.TryGetValue(characteristic.Uuid, out characteristic))
+            if (!_subscribedCharacteristics.TryGetValue(characteristicInfo.Uuid, out characteristicInfo))
                 return false;
 
+            var characteristic = GetCharacteristic(characteristicInfo);
             characteristic.ValueChanged -= CharacteristicOnValueChanged;
             _subscribedCharacteristics.Remove(characteristic.Uuid);
             return true;
@@ -37,13 +46,10 @@ namespace BleLab.Services
         {
             return _subscribedCharacteristics.ContainsKey(characteristic.Uuid);
         }
-
-        public void DeviceDisconnected(BluetoothLEDevice device)
+        
+        private void DeviceControllerOnDeviceDisconnecting(object sender, EventArgs eventArgs)
         {
-            if (device == null)
-                return;
-
-            var deviceId = device.DeviceId;
+            var deviceId = _deviceController.ConnectedDevice.DeviceId;
             var characteristics = _subscribedCharacteristics.Values.Where(t => t.Service.Device.DeviceId == deviceId).ToList();
 
             foreach (var characteristic in characteristics)
@@ -60,7 +66,15 @@ namespace BleLab.Services
 
         private void CharacteristicOnValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            ValueChanged?.Invoke(sender, args);
+            if (_subscribedCharacteristics.TryGetValue(sender.Uuid, out var info))
+            {
+                ValueChanged?.Invoke(info, args);
+            }
+        }
+
+        private GattCharacteristic GetCharacteristic(CharacteristicInfo characteristicInfo)
+        {
+            return _deviceController.ConnectedDevice.GetGattService(characteristicInfo.Service.Uuid).GetCharacteristics(characteristicInfo.Uuid)[0];
         }
     }
 }

@@ -33,7 +33,7 @@ namespace BleLab.Commands.Device
 
             // ToDo: cache services on controller
             var characteristics = _deviceController.ConnectedDevice.GetGattService(_serviceInfo.Uuid).GetAllCharacteristics().ToList();
-            Characteristics = await _infoManager.GetAllCharacteristicsInfo(_serviceInfo, characteristics);
+            Characteristics = await _infoManager.GetAllCharacteristicsInfo(_serviceInfo, characteristics).ConfigureAwait(false);
         }
     }
 }

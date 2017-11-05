@@ -86,13 +86,6 @@ namespace BleLab.ViewModels
         protected override void OnViewAttached(object view, object context)
         {
             _view = (CommandPanelView)view;
-            _view.IsExpanded = _applicationState.ConsoleExpanded;
-            _view.RegisterPropertyChangedCallback(CommandPanelView.IsExpandedProperty, (sender, dp) => _applicationState.ConsoleExpanded = _view.IsExpanded);
-        }
-    
-        protected override void OnViewLoaded(object view)
-        {
-
         }
     }
 }

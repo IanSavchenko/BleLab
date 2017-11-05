@@ -2,171 +2,183 @@
     x:Class="BleLab.Views.DeviceView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:BleLab.Controls"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:micro="using:Caliburn.Micro"
-    xmlns:controls="using:BleLab.Controls"
     xmlns:viewModels="using:BleLab.ViewModels"
-    xmlns:wrapPanel="using:Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel"
-    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:DeviceViewModel}"
     d:DesignHeight="300"
-    d:DesignWidth="400" d:DataContext="{d:DesignInstance viewModels:DeviceViewModel}">
-    
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
     <UserControl.Resources>
 
         <DataTemplate x:Key="ServiceHeaderTemplate" x:DataType="viewModels:ServiceViewModel">
-            <Grid HorizontalAlignment="Stretch" Margin="0 10 0 0">
-                
+            <Grid Margin="0 10 0 0" HorizontalAlignment="Stretch">
+
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                
+
                 <StackPanel Grid.Column="0">
-                    
-                    <controls:EditableTextBlock 
-                        ToolTipService.ToolTip="Service name"
-                        Text="{x:Bind Name, Mode=TwoWay}" 
-                        FontWeight="SemiLight"
-                        FontSize="24"/>
 
-                    <controls:EditableTextBlock 
+                    <controls:EditableTextBlock
+                        FontSize="24"
+                        FontWeight="SemiLight"
+                        Text="{x:Bind Name, Mode=TwoWay}"
+                        ToolTipService.ToolTip="Service name" />
+
+                    <controls:EditableTextBlock
+                        FontSize="15"
+                        FontWeight="SemiLight"
+                        Text="{x:Bind Description, Mode=TwoWay}"
                         TextWrapping="Wrap"
-                        FontWeight="SemiLight"
-                        ToolTipService.ToolTip="Service description"
-                        Text="{x:Bind Description, Mode=TwoWay}" 
-                        FontSize="15"/>
+                        ToolTipService.ToolTip="Service description" />
 
-                    <TextBlock IsTextSelectionEnabled="True" 
-                               FontSize="15"
-                               ToolTipService.ToolTip="Service UUID">
-                        <Run  Text="{x:Bind Uuid}"/>
+                    <TextBlock
+                        FontSize="15"
+                        IsTextSelectionEnabled="True"
+                        ToolTipService.ToolTip="Service UUID">
+                        <Run Text="{x:Bind Uuid}" />
                     </TextBlock>
 
-                   
+
                 </StackPanel>
-                <Button 
-                    VerticalAlignment="Top"
+                <Button
                     Grid.Column="1"
-                    Style="{StaticResource IconButtonStyle}"
+                    VerticalAlignment="Top"
+                    Command="{x:Bind ReadMoreCommand}"
                     Content="&#xE774;"
                     FontSize="18"
+                    Style="{StaticResource IconButtonStyle}"
                     ToolTipService.ToolTip="Read more on the web"
-                    Command="{x:Bind ReadMoreCommand}"
-                    Visibility="{x:Bind IsReadMoreVisible, Converter={StaticResource Bool2Vis}}"/>
+                    Visibility="{x:Bind IsReadMoreVisible, Converter={StaticResource Bool2Vis}}" />
 
             </Grid>
         </DataTemplate>
-        
+
         <DataTemplate x:Key="ServiceCharacteristicTemplate" x:DataType="viewModels:CharacteristicInfoViewModel">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" 
-                               ToolTipService.ToolTip="Characteristic name"/>
-                    <TextBlock Text="{x:Bind Uuid}"
-                               ToolTipService.ToolTip="UUID of characteristic"
-                               Style="{StaticResource CaptionTextBlockStyle}"/>
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" ToolTipService.ToolTip="Characteristic name" />
+                    <TextBlock
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind Uuid}"
+                        ToolTipService.ToolTip="UUID of characteristic" />
 
                 </StackPanel>
 
-                <ToggleButton 
-                    IsChecked="{Binding IsFavourite, Mode=TwoWay}"
+                <ToggleButton
                     Grid.Column="1"
                     VerticalAlignment="Top"
-                    Style="{StaticResource ToggleFavorite}"
                     FontSize="18"
+                    IsChecked="{Binding IsFavourite, Mode=TwoWay}"
+                    Style="{StaticResource ToggleFavorite}"
                     ToolTipService.ToolTip="Mark characteristic as favourite" />
 
             </Grid>
-            
+
         </DataTemplate>
 
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Grid Style="{StaticResource TopLevelViewHeaderGridStyle}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
+
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <controls:EditableTextBlock 
-                        FontSize="46"
-                        FontWeight="Light"
-                        TextBlockStyle="{StaticResource TopLevelViewHeaderTitleTextBlockStyle}"
-                        Text="{Binding Name, Mode=TwoWay}"/>
 
-            <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="Disconnect" VerticalAlignment="Center">Disconnect device</Button>
+            <controls:EditableTextBlock
+                FontSize="46"
+                FontWeight="Light"
+                Text="{Binding Name, Mode=TwoWay}"
+                TextBlockStyle="{StaticResource TopLevelViewHeaderTitleTextBlockStyle}" />
 
-            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+            <Button
+                x:Name="Disconnect"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                VerticalAlignment="Center">
+                Disconnect device
+            </Button>
 
-                <TextBlock IsTextSelectionEnabled="True" 
-                           TextWrapping="Wrap"
-                           Style="{StaticResource TopLevelViewHeaderSecondaryTextBlockStyle}">
-                    <Run Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}">MacAddress:&#160;</Run><Run Text="{Binding MacAddress}"/>
-                    <LineBreak/>
-                    <Run Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}">System device ID:&#160;</Run><Run Text="{Binding DeviceId}"/>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2">
+
+                <TextBlock
+                    IsTextSelectionEnabled="True"
+                    Style="{StaticResource TopLevelViewHeaderSecondaryTextBlockStyle}"
+                    TextWrapping="Wrap">
+                    <Run Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}">MacAddress:&#160;</Run><Run Text="{Binding MacAddress}" />
+                    <LineBreak />
+                    <Run Foreground="{ThemeResource ApplicationSecondaryForegroundThemeBrush}">System device ID:&#160;</Run><Run Text="{Binding DeviceId}" />
                 </TextBlock>
-                
+
             </StackPanel>
         </Grid>
-        
-        <ProgressBar Grid.Row="0" 
-                     VerticalAlignment="Bottom"
-                     IsIndeterminate="{Binding IsConnecting}" 
-                     Background="Transparent"/>
-        <SplitView 
-               Grid.Row="1"
-               DisplayMode="Inline" 
-               PaneBackground="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-               PanePlacement="Right" 
-               OpenPaneLength="400"
-               IsPaneOpen="{Binding ShowPane}">
+
+        <ProgressBar
+            Grid.Row="0"
+            VerticalAlignment="Bottom"
+            Background="Transparent"
+            IsIndeterminate="{Binding IsConnecting}" />
+        <SplitView
+            Grid.Row="1"
+            DisplayMode="Inline"
+            IsPaneOpen="{Binding ShowPane}"
+            OpenPaneLength="400"
+            PaneBackground="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+            PanePlacement="Right">
             <SplitView.Content>
-                <Grid HorizontalAlignment="Stretch" 
-                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid HorizontalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <!--Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"-->
+                    <!--  Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"  -->
                     <Grid Padding="20 16 0 16">
-                        <wrapPanel:WrapPanel>
-                            <wrapPanel:WrapPanel.Resources>
+                        <controls1:WrapPanel>
+                            <controls1:WrapPanel.Resources>
                                 <Style TargetType="CheckBox">
-                                    <Setter Property="Margin" Value="0 0 20 0"/>
-                                    <Setter Property="MinWidth" Value="0"/>
+                                    <Setter Property="Margin" Value="0 0 20 0" />
+                                    <Setter Property="MinWidth" Value="0" />
                                 </Style>
-                            </wrapPanel:WrapPanel.Resources>
+                            </controls1:WrapPanel.Resources>
 
                             <CheckBox x:Name="ShowServices" IsChecked="True">Services</CheckBox>
                             <CheckBox x:Name="ShowCharacteristics" IsChecked="True">Characteristics</CheckBox>
                             <CheckBox x:Name="OnlyFavourites">Only favourite</CheckBox>
-                        </wrapPanel:WrapPanel>
+                        </controls1:WrapPanel>
                     </Grid>
 
                     <ListView
-                        SelectedItem="{Binding SelectedCharacteristic, Mode=TwoWay}"
                         Grid.Row="1"
                         Margin="8 0 0 0"
                         IsSynchronizedWithCurrentItem="False"
-                        ItemsSource="{Binding Path=Characteristics.View, Mode=OneWay}"
                         ItemTemplate="{StaticResource ServiceCharacteristicTemplate}"
+                        ItemsSource="{Binding Path=Characteristics.View, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedCharacteristic, Mode=TwoWay}"
                         SelectionMode="Single"
                         ShowsScrollingPlaceholders="True">
 
@@ -174,8 +186,8 @@
                             <GroupStyle HeaderTemplate="{StaticResource ServiceHeaderTemplate}">
                                 <GroupStyle.HeaderContainerStyle>
                                     <Style TargetType="ListViewHeaderItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                        <Setter Property="Margin" Value="0 0 10 0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0 0 10 0" />
                                     </Style>
                                 </GroupStyle.HeaderContainerStyle>
                             </GroupStyle>
@@ -183,34 +195,49 @@
 
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Margin" Value="0 0 10 0"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0 0 10 0" />
                             </Style>
                         </ListView.ItemContainerStyle>
 
                     </ListView>
-                    
-                    <TextBlock 
-                        Visibility="{Binding SearchResultEmpty, Converter={StaticResource Bool2Vis}}"
+
+                    <TextBlock
+                        Grid.Row="1"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Center"
                         Style="{ThemeResource SubtitleTextBlockStyle}"
-                        Grid.Row="1">Nothing matches search criteria :(</TextBlock>
+                        Visibility="{Binding SearchResultEmpty, Converter={StaticResource Bool2Vis}}">
+                        Nothing matches search criteria :(
+                    </TextBlock>
                 </Grid>
             </SplitView.Content>
 
             <SplitView.Pane>
                 <Grid Margin="12">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    
-                    <ContentControl Grid.Row="0" x:Name="ActiveItem" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
-                    
-                    <Button Grid.Row="1" x:Name="ClosePane" VerticalAlignment="Bottom" HorizontalAlignment="Right">Close</Button>
+
+                    <ContentControl
+                        x:Name="ActiveItem"
+                        Grid.Row="0"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+
+                    <Button
+                        x:Name="ClosePane"
+                        Grid.Row="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+                        Close
+                    </Button>
                 </Grid>
             </SplitView.Pane>
         </SplitView>
     </Grid>
 </UserControl>
+
+
+

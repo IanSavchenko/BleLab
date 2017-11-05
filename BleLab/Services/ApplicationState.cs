@@ -25,5 +25,12 @@ namespace BleLab.Services
             get => Get<int>();
             set => Set(value);
         }
+
+        [KeeperProperty(DefaultValue = 200)]
+        public int ConsoleHeight
+        {
+            get => Get<int>();
+            set => Set(value);
+        }
     }
 }

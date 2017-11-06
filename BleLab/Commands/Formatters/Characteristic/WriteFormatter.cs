@@ -1,3 +1,4 @@
+using System;
 using BleLab.Commands.Characteristic;
 using BleLab.Utils;
 
@@ -12,13 +13,13 @@ namespace BleLab.Commands.Formatters.Characteristic
 
         public override object OnDispatched(WriteBytesCommand command)
         {
-            return $"WriteBytes {(command.WithoutResponse ? "WithoutResponce " : string.Empty)}{command.CharacteristicInfo.Uuid} {command.Bytes.AsString(command.BytesDisplayFormat)}";
+            return $"WriteBytes {(command.WithoutResponse ? $"'{nameof(WriteBytesCommand.WithoutResponse)}' " : string.Empty)}to characteristic '{command.CharacteristicInfo.Name}' ({command.CharacteristicInfo.Uuid}){Environment.NewLine}{command.Bytes.AsString(command.BytesDisplayFormat)}";
         }
 
         public override object OnExecuted(WriteBytesCommand command)
         {
             if (command.Status == CommandStatus.Succeeded)
-                return "Successfull write";
+                return "Successfull write.";
 
             if (command.Status == CommandStatus.Exception)
                 return $"Exception when writing: {command.Exception.Message}";

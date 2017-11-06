@@ -11,7 +11,7 @@ namespace BleLab.Commands.Formatters.Characteristic
 
         public override object OnDispatched(SubscribeCommand command)
         {
-            return $"Subscribing to characteristic {command.CharacteristicInfo.Uuid}";
+            return $"Subscribing to characteristic '{command.CharacteristicInfo.Name}' ({command.CharacteristicInfo.Uuid})";
         }
 
         public override object OnExecuted(SubscribeCommand command)

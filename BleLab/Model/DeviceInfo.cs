@@ -25,6 +25,9 @@ namespace BleLab.Model
         [BsonIgnore]
         public DeviceThumbnail Glyph { get; set; }
 
+        [BsonIgnore]
+        public string DisplayName => GivenName ?? Name;
+
         protected override void DoSave()
         {
             InfoManager.SaveDevice(this);

@@ -11,7 +11,7 @@ namespace BleLab.Commands.Formatters.Characteristic
 
         public override object OnDispatched(WriteClientConfigDescriptorCommand command)
         {
-            return $"Writing client config descriptor to characteristic {command.CharacteristicInfo.Uuid} {command.Descriptor}";
+            return $"Writing client config descriptor '{command.Descriptor}' to characteristic '{command.CharacteristicInfo.Name}' ({command.CharacteristicInfo.Uuid})";
         }
 
         public override object OnExecuted(WriteClientConfigDescriptorCommand command)
@@ -19,7 +19,7 @@ namespace BleLab.Commands.Formatters.Characteristic
             switch (command.Status)
             {
                 case CommandStatus.Succeeded:
-                    return "Successfull write";
+                    return "Successfull write.";
                 case CommandStatus.Exception:
                     return $"Exception: {command.Exception.Message}";
                 default:

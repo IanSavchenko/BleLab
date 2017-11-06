@@ -11,7 +11,7 @@ namespace BleLab.Commands.Formatters.Characteristic
 
         public override object OnDispatched(ReadClientConfigDescriptorCommand command)
         {
-            return $"Reading client config descriptor for characteristc {command.CharacteristicInfo.Uuid}";
+            return $"Reading client config descriptor for characteristc '{command.CharacteristicInfo.Name}' ({command.CharacteristicInfo.Uuid})";
         }
 
         public override object OnExecuted(ReadClientConfigDescriptorCommand command)

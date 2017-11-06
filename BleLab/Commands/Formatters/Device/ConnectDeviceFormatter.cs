@@ -11,7 +11,7 @@ namespace BleLab.Commands.Formatters.Device
 
         public override object OnDispatched(ConnectDeviceCommand command)
         {
-            return $"Trying to connect to device '{command.DeviceInfo.DeviceId}'";
+            return $"Trying to connect to device '{command.DeviceInfo.DisplayName}' ({command.DeviceInfo.DeviceId})";
         }
 
         public override object OnExecuted(ConnectDeviceCommand command)
@@ -19,9 +19,9 @@ namespace BleLab.Commands.Formatters.Device
             switch (command.Status)
             {
                 case CommandStatus.Succeeded:
-                    return "Successfully connected.";
+                    return $"Successfully connected to '{command.DeviceInfo.DisplayName}'.";
                 case CommandStatus.Exception:
-                    return $"Exception while connecting: {command.Exception.Message}";
+                    return $"Exception while connecting to device '{command.DeviceInfo.DisplayName}': {command.Exception.Message}";
                 default:
                     return null;
             }

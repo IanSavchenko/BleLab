@@ -12,7 +12,7 @@ namespace BleLab.Commands.Formatters.Characteristic
 
         public override object OnDispatched(ReadBytesCommand command)
         {
-            return $"ReadBytes {command.CacheMode} from characteristic {command.CharacteristicInfo.Uuid}.";
+            return $"ReadBytes '{command.CacheMode}' from characteristic '{command.CharacteristicInfo.Name}' ({command.CharacteristicInfo.Uuid}).";
         }
 
         public override object OnExecuted(ReadBytesCommand command)
@@ -21,7 +21,7 @@ namespace BleLab.Commands.Formatters.Characteristic
                 return $"{command.Bytes.AsString(command.BytesDisplayFormat)}";
 
             if (command.Status == CommandStatus.Exception)
-                return $"Exception while reading data: {command.Exception.Message}";
+                return $"Exception while reading: {command.Exception.Message}";
 
             return null;
         }

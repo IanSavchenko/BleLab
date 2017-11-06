@@ -32,5 +32,12 @@ namespace BleLab.Services
             get => Get<int>();
             set => Set(value);
         }
+
+        [KeeperProperty(DefaultValue = 400)]
+        public int CharacteristicPaneWidth
+        {
+            get => Get<int>();
+            set => Set(value);
+        }
     }
 }

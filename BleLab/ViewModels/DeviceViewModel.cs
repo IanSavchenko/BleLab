@@ -104,20 +104,7 @@ namespace BleLab.ViewModels
         public string MacAddress => _deviceInfo.MacAddress;
 
         public string DeviceId => _deviceInfo.DeviceId;
-
-        public bool ShowPane
-        {
-            get { return _showPane; }
-            set
-            {
-                if (value == _showPane)
-                    return;
-
-                _showPane = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
+        
         public CharacteristicInfoViewModel SelectedCharacteristic
         {
             get { return _selectedCharacteristic; }
@@ -128,8 +115,6 @@ namespace BleLab.ViewModels
                 _selectedCharacteristic = value;
                 NotifyOfPropertyChange();
 
-                ShowPane = SelectedCharacteristic != null;
-
                 if (SelectedCharacteristic != null)
                 {
                     ActivateItem(GetOrCreateCharacteristicViewModel(SelectedCharacteristic));
@@ -137,14 +122,9 @@ namespace BleLab.ViewModels
             }
         }
 
-        public void ClosePane()
-        {
-            SelectedCharacteristic = null;
-        }
-
         public async void Disconnect()
         {
-            await _commandRunner.Enqueue(new DisconnectDeviceCommand()).AsTask();
+            await _commandRunner.Enqueue(new DisconnectDeviceCommand()).AsTask().ConfigureAwait(true);
             TryClose();
         }
 
@@ -153,7 +133,7 @@ namespace BleLab.ViewModels
             _eventAggregator.Subscribe(this);
             if (!_connected)
             {
-                await ConnectToDevice();
+                await ConnectToDevice().ConfigureAwait(true);
                 UpdateServicesAndCharacteristics();
             }
         }
@@ -178,10 +158,10 @@ namespace BleLab.ViewModels
             {
                 IsConnecting = true;
 
-                var result = await _commandRunner.Enqueue(new ConnectDeviceCommand(_deviceInfo)).AsTask();
+                var result = await _commandRunner.Enqueue(new ConnectDeviceCommand(_deviceInfo)).AsTask().ConfigureAwait(true);
                 if (result.Status != CommandStatus.Succeeded)
                 {
-                    await ShowCouldntConnectMessage();
+                    await ShowCouldntConnectMessage().ConfigureAwait(true);
                     return;
                 }
 
@@ -192,13 +172,13 @@ namespace BleLab.ViewModels
 
                 _servicesCharacteristics.Clear();
 
-                var servicesResult = await _commandRunner.Enqueue(new ListServicesCommand(_deviceInfo)).AsTask();
+                var servicesResult = await _commandRunner.Enqueue(new ListServicesCommand(_deviceInfo)).AsTask().ConfigureAwait(true);
                 if (servicesResult.Status != CommandStatus.Succeeded)
                     return;
 
                 foreach (var service in servicesResult.Services)
                 {
-                    var serviceCharacteristics = await LoadCharacteristics(service);
+                    var serviceCharacteristics = await LoadCharacteristics(service).ConfigureAwait(true);
                     _servicesCharacteristics
                         .Add(new ServiceViewModel(service), serviceCharacteristics.Select(t => new CharacteristicInfoViewModel(t))
                         .ToList());
@@ -213,7 +193,7 @@ namespace BleLab.ViewModels
         private async Task<List<CharacteristicInfo>> LoadCharacteristics(ServiceInfo serviceInfo)
         {
             var resultList = new List<CharacteristicInfo>();
-            var result = await _commandRunner.Enqueue(new ListCharacteristicsCommand(serviceInfo) { HideInConsole = true }).AsTask();
+            var result = await _commandRunner.Enqueue(new ListCharacteristicsCommand(serviceInfo) { HideInConsole = true }).AsTask().ConfigureAwait(true);
             if (result.Status != CommandStatus.Succeeded)
                 return resultList;
 

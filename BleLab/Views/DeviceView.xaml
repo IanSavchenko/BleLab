@@ -142,78 +142,104 @@
             VerticalAlignment="Bottom"
             Background="Transparent"
             IsIndeterminate="{Binding IsConnecting}" />
-        <SplitView
-            Grid.Row="1"
-            DisplayMode="Inline"
-            IsPaneOpen="{Binding ShowPane}"
-            OpenPaneLength="400"
-            PaneBackground="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-            PanePlacement="Right">
-            <SplitView.Content>
-                <Grid HorizontalAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
 
-                    <!--  Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"  -->
-                    <Grid Padding="20 16 0 16">
-                        <controls1:WrapPanel>
-                            <controls1:WrapPanel.Resources>
-                                <Style TargetType="CheckBox">
-                                    <Setter Property="Margin" Value="0 0 20 0" />
-                                    <Setter Property="MinWidth" Value="0" />
-                                </Style>
-                            </controls1:WrapPanel.Resources>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="300" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="PaneColumnDefinition" />
+            </Grid.ColumnDefinitions>
 
-                            <CheckBox x:Name="ShowServices" IsChecked="True">Services</CheckBox>
-                            <CheckBox x:Name="ShowCharacteristics" IsChecked="True">Characteristics</CheckBox>
-                            <CheckBox x:Name="OnlyFavourites">Only favourite</CheckBox>
-                        </controls1:WrapPanel>
-                    </Grid>
+            <Grid
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                    <ListView
-                        Grid.Row="1"
-                        Margin="8 0 0 0"
-                        IsSynchronizedWithCurrentItem="False"
-                        ItemTemplate="{StaticResource ServiceCharacteristicTemplate}"
-                        ItemsSource="{Binding Path=Characteristics.View, Mode=OneWay}"
-                        SelectedItem="{Binding SelectedCharacteristic, Mode=TwoWay}"
-                        SelectionMode="Single"
-                        ShowsScrollingPlaceholders="True">
-
-                        <ListView.GroupStyle>
-                            <GroupStyle HeaderTemplate="{StaticResource ServiceHeaderTemplate}">
-                                <GroupStyle.HeaderContainerStyle>
-                                    <Style TargetType="ListViewHeaderItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="Margin" Value="0 0 10 0" />
-                                    </Style>
-                                </GroupStyle.HeaderContainerStyle>
-                            </GroupStyle>
-                        </ListView.GroupStyle>
-
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="Margin" Value="0 0 10 0" />
+                <!--  Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"  -->
+                <Grid Padding="20 16 0 16">
+                    <controls1:WrapPanel>
+                        <controls1:WrapPanel.Resources>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="Margin" Value="0 0 20 0" />
+                                <Setter Property="MinWidth" Value="0" />
                             </Style>
-                        </ListView.ItemContainerStyle>
+                        </controls1:WrapPanel.Resources>
 
-                    </ListView>
-
-                    <TextBlock
-                        Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{ThemeResource SubtitleTextBlockStyle}"
-                        Visibility="{Binding SearchResultEmpty, Converter={StaticResource Bool2Vis}}">
-                        Nothing matches search criteria :(
-                    </TextBlock>
+                        <CheckBox x:Name="ShowServices" IsChecked="True">Services</CheckBox>
+                        <CheckBox x:Name="ShowCharacteristics" IsChecked="True">Characteristics</CheckBox>
+                        <CheckBox x:Name="OnlyFavourites">Only favourite</CheckBox>
+                    </controls1:WrapPanel>
                 </Grid>
-            </SplitView.Content>
 
-            <SplitView.Pane>
+                <ListView
+                    x:Name="CharacteristicsListView"
+                    Grid.Row="1"
+                    Margin="8 0 0 0"
+                    IsSynchronizedWithCurrentItem="False"
+                    ItemTemplate="{StaticResource ServiceCharacteristicTemplate}"
+                    ItemsSource="{Binding Path=Characteristics.View, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedCharacteristic, Mode=TwoWay}"
+                    SelectionChanged="CharacteristicsListView_OnSelectionChanged"
+                    SelectionMode="Single"
+                    ShowsScrollingPlaceholders="True">
+
+                    <ListView.GroupStyle>
+                        <GroupStyle HeaderTemplate="{StaticResource ServiceHeaderTemplate}">
+                            <GroupStyle.HeaderContainerStyle>
+                                <Style TargetType="ListViewHeaderItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="0 0 10 0" />
+                                </Style>
+                            </GroupStyle.HeaderContainerStyle>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="0 0 10 0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                </ListView>
+
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Visibility="{Binding SearchResultEmpty, Converter={StaticResource Bool2Vis}}">
+                    Nothing matches search criteria :(
+                </TextBlock>
+            </Grid>
+
+            <controls1:GridSplitter
+                x:Name="Splitter"
+                Grid.Column="1"
+                Width="5"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource SystemControlPageBackgroundBaseLowBrush}"
+                FontSize="8"
+                ResizeBehavior="BasedOnAlignment"
+                ResizeDirection="Auto">
+                <controls1:GridSplitter.Element>
+                    <Grid>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
+                            IsHitTestVisible="False"
+                            Text="&#59268;" />
+                    </Grid>
+                </controls1:GridSplitter.Element>
+            </controls1:GridSplitter>
+
+            <Border Grid.Column="2" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
                 <Grid Margin="12">
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -227,17 +253,14 @@
                         VerticalContentAlignment="Stretch" />
 
                     <Button
-                        x:Name="ClosePane"
                         Grid.Row="1"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom">
+                        VerticalAlignment="Bottom"
+                        Click="ClosePane_OnClick">
                         Close
                     </Button>
                 </Grid>
-            </SplitView.Pane>
-        </SplitView>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>
-
-
-

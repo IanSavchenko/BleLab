@@ -77,8 +77,8 @@ namespace BleLab.Views
         private void HideConsole()
         {
             Splitter.Visibility = Visibility.Collapsed;
-            ConsoleRowDefinition.MinHeight = 30;
-            ConsoleRowDefinition.MaxHeight = 30;
+            ConsoleRowDefinition.MinHeight = ConsoleHeader.Height;
+            ConsoleRowDefinition.MaxHeight = ConsoleHeader.Height;
             ExpandConsoleButton.Visibility = Visibility.Visible;
             HideConsoleButton.Visibility = Visibility.Collapsed;
         }

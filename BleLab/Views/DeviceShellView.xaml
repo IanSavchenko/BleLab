@@ -50,7 +50,10 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <Grid
+                x:Name="ConsoleHeader"
+                Height="30"
+                Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
                 <Grid.Resources>
                     <Style BasedOn="{StaticResource CommandPanelViewButtonStyle}" TargetType="Button" />
                 </Grid.Resources>

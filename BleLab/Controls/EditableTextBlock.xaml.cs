@@ -1,5 +1,4 @@
 ﻿using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -25,8 +24,6 @@ namespace BleLab.Controls
             set { SetValue(TextBlockStyleProperty, value); }
         }
         
-        private CoreCursor _oldCursor;
-
         public EditableTextBlock()
         {
             this.InitializeComponent();
@@ -81,13 +78,12 @@ namespace BleLab.Controls
         
         private void NonEditable_OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            _oldCursor = Window.Current.CoreWindow.PointerCursor;
-            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.IBeam, 0);
+            NonEditable.Opacity = 0.75;
         }
 
         private void NonEditable_OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerCursor = _oldCursor;
+            NonEditable.Opacity = 1;
         }
 
         private void Editable_OnKeyUp(object sender, KeyRoutedEventArgs e)
